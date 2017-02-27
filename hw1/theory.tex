@@ -1,0 +1,150 @@
+\documentclass[]{book}
+
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[english, russian]{babel}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{soln}{Solution}
+\newtheorem{prop}{Proposition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+\begin{document}
+
+
+\begin{center}
+{\Large Машинное обучение -- 1. Теоретические задачи}\\
+\textbf{Каргальцев Степан}\\ %You should put your name here
+26.02.2017 %You should write the date here.
+\end{center}
+
+\begin{enumerate}
+\item\label{4.1} \textbf{Наивный байес и центроидный классификатор}
+
+\textit{Покажите, что если в наивном байесовском классификаторе классы имеют одинаковые апри-
+орные вероятности, а плотность распределения признаков в каждом классе имеет вид 
+$P(x^{(k)} | y) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x^{(k)} - \mu_{yk})^2}{2\sigma^2}}, x^(k), k = 1 \ldots n$ --- признаки объекта $x$, классификация сводится к отнесению объекта $x$ к классу $y$, центр которого $\mu_y = (\mu_1, \ldots, \mu_n)^T$ ближе всего к $x$.}
+
+$$\hat{y} = \argmax\limits_y \left [ \displaystyle\prod\limits_{k = 1}^n P(x^{(k)} | y) P(y) \right ] = |P(y) \; \textup{одинаковы}| = \argmax_y \left [\displaystyle\prod_{k = 1}^n P(x^{(k)} | y) \right ] = $$
+
+$$\argmax\limits_y \left [\displaystyle\prod_{k = 1}^n \ln P(x^{(k)} | y)\right ] = \argmax_y \left [-\sum\limits_{k = 1}^n \frac{(x^{(k)} - \mu_{yk})^2}{2\sigma^2} - \frac{1}{2}\ln(2\pi \sigma^2) \right ] = \argmin\limits_y \left [ \sum\limits_{k = 1}^{n} (x^{(k)} - \mu_{yk})^2 \right ] = $$ 
+
+$$\argmin\limits_y \rho(x, \mu_y) $$
+
+
+\item\label{4.2} \textbf{ROC-AUC случайных ответов}
+
+Покажите, что <<треугольный ROC-AUC>> (см.лекцию 2) в случае, когда классификатор дает
+случайные ответы -- $a(x) = 1$ с вероятностью $p$ и $a(x) = 0$ с вероятностью $1 - p$, будет в
+среднем равен $0.5$, независимо от $p$ и доли класса $1$ в обучающей выборке.
+
+Если пороговое значение 0 (то есть все ответы положительны), то мы получаем TPR = 1, FPR = 1 и точку (1, 1)
+
+Если пороговое значение 1 (то есть все ответы отрицательны), то мы получаем TPR = 0, FPR = 0 и точку (0, 0)
+
+Иначе мы получаем TPR = $\frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|} =: \mathcal{Y}$, FRP = $\frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} =: \mathcal{X}$.
+
+Площадь треугольника на этих трех точках равна $S = (\mathcal{X}, \mathcal{Y}) \times (1, 1) = \mathcal{X} - \mathcal{Y} = \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|}$.
+
+$ES = E \left [ \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|} \right ] = \frac{\sum\limits_{x \in \mathbbm{0}} E a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} E a(x)}{|\mathbbm{1}|} = E a(x) - E a(x) = 0$
+
+То есть площадь под $ROC-AUC$ кривой будет в среднем равна $E(0.5 + S) = 0.5$
+
+\item\label{4.3} \textbf{Ошибка 1NN и оптимального байесовского классификатора}
+
+\textit{Утверждается, что метод одного ближайшего соседа асимптотически (при условии, что максимальное по всем точкам выборки расстояние до ближайшего соседа стремится к нулю) имеет
+матожидание ошибки не более чем вдвое больше по сравнению с оптимальным байесовским
+классификатором (который это матожидание минимизирует).}
+
+\textit{Покажите это, рассмотрев задачу бинарной классификации. Достаточно рассмотреть вероятность ошибки на фиксированном объекте $x$, т.к. матожидание ошибок на выборке размера $V$ будет просто произведением $V$ на эту вероятность. Байесовский классификатор ошибается на объекте $x$ с вероятностью:}
+
+$$E_B = \min\{P(1|x), P(0|x)\}$$
+
+\textit{Условные вероятности будем считать непрерывными функциями от $x \in \mathbb{R}^m$   , чтобы иметь возможность делать предельные переходы. Метод ближайшего соседа ошибается с вероятно-
+стью:}
+
+$$E_N = P(y \ne y_n)$$
+
+\textit{Здесь $y$  --- настоящий класс $x$, а $y_n$ --- класс ближайшего соседа $x_n$ к объекту $x$ в предположении, что в обучающей выборке $n$ объектов, равномерно заполняющих пространство.}
+
+\textit{Докажите исходное утверждение, выписав выражение для $E_N$ (принадлежность к классам
+$0$ и $1$ для объектов $x$ и $x_n$ считать независимыми событиями) и осуществив предельный
+переход по $n$.}
+
+$$E_N = P(1|x_n) \cdot P(0|x) + P(0|x_n) \cdot P(1|x) \to 2P(0|x)P(1|x) = $$
+
+$$2\min \{P(0|x), P(1|x)\} \cdot \max \{P(0|x), P(1|x)\} \leqslant 2\min \{P(0|x), P(1|x)\} = 2E_B$$
+
+\end{enumerate}
+\end{document}
+
+
+
