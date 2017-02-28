@@ -112,9 +112,9 @@ $$\argmin\limits_y \rho(x, \mu_y) $$
 
 Иначе мы получаем TPR = $\frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|} =: \mathcal{Y}$, FRP = $\frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} =: \mathcal{X}$.
 
-Площадь треугольника на этих трех точках равна $S = (\mathcal{X}, \mathcal{Y}) \times (1, 1) = \mathcal{X} - \mathcal{Y} = \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|}$.
+Площадь треугольника на этих трех точках равна $S = \frac{1}{2}(\mathcal{X}, \mathcal{Y}) \times (1, 1) = \frac{1}{2} (\mathcal{X} - \mathcal{Y}) = \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{2|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{2|\mathbbm{1}|}$.
 
-$ES = E \left [ \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|} \right ] = \frac{\sum\limits_{x \in \mathbbm{0}} E a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} E a(x)}{|\mathbbm{1}|} = E a(x) - E a(x) = 0$
+$ES = \frac{1}{2} E \left [ \frac{\sum\limits_{x \in \mathbbm{0}} a(x)}{|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} a(x)}{|\mathbbm{1}|} \right ] =  \frac{\sum\limits_{x \in \mathbbm{0}} E a(x)}{2|\mathbbm{0}|} - \frac{\sum\limits_{x \in \mathbbm{1}} E a(x)}{2|\mathbbm{1}|} = \frac{1}{2} (E a(x) - E a(x)) = 0$
 
 То есть площадь под $ROC-AUC$ кривой будет в среднем равна $E(0.5 + S) = 0.5$
 
